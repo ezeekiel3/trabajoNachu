@@ -1,13 +1,13 @@
 class Boton {
-    constructor(texto, imgPosX, imgPosY, imgAncho, imgAlto, tamTexto, textoPosX, textoPosY) {
+    constructor(texto, imgPosX, imgPosY, imgAncho, imgAlto, tamTexto) {
         this.texto = texto
         this.imgAncho = imgAncho
         this.imgAlto = imgAlto
         this.imgPosX = imgPosX
         this.imgPosY = imgPosY
         this.tamTexto = tamTexto
-        this.textoPosX = textoPosX
-        this.textoPosY = textoPosY
+        this.textoPosX = imgPosX
+        this.textoPosY = imgPosY
     }
 
     dibujarBoton(img) {

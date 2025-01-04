@@ -1,26 +1,27 @@
-let fondoPrincipal
-const botonJugar = new Boton('JUGAR', 105, 405, 110, 90, 22, 68, 408)
-const botonInicio = new Boton('INICIO', 640 / 2, 420, 110, 90, 22, 290, 420)
-let desierto
-let Jesus
-let botonImg
-let estado = 0
-let pasos = 0
-let vida
-let vidaContador = 3
-let velJesus = 5
-let posXRandom = []
-let piedrasImg = []
-let piedrasTocadas = [] // Array para registrar si una piedra ya tocó a Jesús
+let fondoPrincipal // variable para el fondo principal
+const botonJugar = new Boton('JUGAR', 105, 405, 110, 90, 22)
+const botonInicio = new Boton('INICIO', 640 / 2, 420, 110, 90, 22)
+let desierto // variable para la imagen del desierto
+let Jesus // variable para la imagen de Jesus
+let botonImg // variable para la imagen del libro
+let estado = 0 // 0: pantalla principal, 1: juego...
+let pasos = 0 // pasos de Jesus, si se resta se mueve a la izquierda y se suma se mueve a la derecha
+let velJesus = 5 // velocidad de Jesus
+let vida // variable para la imagen de la vida
+let vidaContador = 3 // cantidad de vida
+let posXRandom = [] // Array de las posiciones de las piedras
+let piedrasImg = [] // Array para las imagenes de las piedras
+let piedrasTocadas = [] // Array para registrar si una piedra ya toco a Jesus
 let piedrasProcesadas = 0 // Contador de piedras procesadas
 const totalPiedras = 30 // Total de piedras
-let velPiedra = 8
-let posYPiedra = []
-let posXJesus
-const startYPiedra = -300
-const offsetYPiedra = -100
+let velPiedra = 8 // Velocidad de las piedras al caer, si se aumenta el valor caen mas rapido y si se decrementa caen mas lento
+let posYPiedra = [] // Array de las posiciones verticales de cada piedra
+let posXJesus // Posicion X de la imagen de Jesus
+const startYPiedra = -300 // Posicion Inicial de la piedra
+const offsetYPiedra = -100 // Distancia entre cada piedra, si se aumenta el valor menos distancia van a tener, si se decrementa mas distancia van a tener
 
 function preload() {
+    // funcion para precargar todas las imagenes
     fondoPrincipal = loadImage('./img/fondoPrincipal.png')
     botonImg = loadImage('./img/libro.png')
     desierto = loadImage('./img/desierto.png')
@@ -34,8 +35,9 @@ function preload() {
 
 function setup() {
     createCanvas(640, 480)
-    rectMode(CORNER)
+    rectMode(CENTER)
     imageMode(CENTER)
+    textAlign(CENTER, CENTER)
     for (let i = 0; i < piedrasImg.length; i++) {
         posXRandom[i] = random(0, 580)
         posYPiedra[i] = startYPiedra + i * offsetYPiedra
@@ -90,6 +92,7 @@ function draw() {
 
             if (piedrasProcesadas === totalPiedras) {
                 estado = 2
+                // REINICIAR LAS PIEDRAS
                 for (let i = 0; i < piedrasImg.length; i++) {
                     posXRandom[i] = random(0, 580)
                     posYPiedra[i] = startYPiedra + i * offsetYPiedra
@@ -114,6 +117,7 @@ function draw() {
                     estado = 4
                     vidaContador = 3
                     piedrasProcesadas = 0
+                    // REINICIAR LAS PIEDRAS
                     for (let i = 0; i < piedrasImg.length; i++) {
                         posXRandom[i] = random(0, 580)
                         posYPiedra[i] = startYPiedra + i * offsetYPiedra
@@ -127,7 +131,7 @@ function draw() {
             background(100)
             fill('black')
             textSize(50)
-            text('GANASTE, MUY BIEN', 60, 480 / 2)
+            text('GANASTE, MUY BIEN', 640 / 2, 480 / 2)
             botonInicio.dibujarBoton(botonImg)
             break
         case 4:
@@ -135,14 +139,14 @@ function draw() {
             background(100)
             fill('black')
             textSize(50)
-            text('PERDISTE GATO', 120, 480 / 2)
+            text('PERDISTE GATO', 640 / 2, 480 / 2)
             botonInicio.dibujarBoton(botonImg)
             break
         default:
             image(fondoPrincipal, 640 / 2, 480 / 2, 640, 480)
             fill('black')
             textSize(50)
-            text('La carrera de Jesus', 100, 50)
+            text('La carrera de Jesus', 640 / 2, 50)
             botonJugar.dibujarBoton(botonImg)
             break
     }
