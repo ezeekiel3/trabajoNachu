@@ -16,7 +16,11 @@ let piedrasProcesadas = 0 // Contador de piedras procesadas
 const totalPiedras = 30 // Total de piedras
 let velPiedra = 8 // Velocidad de las piedras al caer, si se aumenta el valor caen mas rapido y si se decrementa caen mas lento
 let posYPiedra = [] // Array de las posiciones verticales de cada piedra
+const piedraAncho = 120
+const piedraAlto = 120
 let posXJesus // Posicion X de la imagen de Jesus
+const anchoJesus = 250
+const altoJesus = 200
 const startYPiedra = -300 // Posicion Inicial de la piedra
 const offsetYPiedra = -100 // Distancia entre cada piedra, si se aumenta el valor menos distancia van a tener, si se decrementa mas distancia van a tener
 
@@ -39,7 +43,7 @@ function setup() {
     imageMode(CENTER)
     textAlign(CENTER, CENTER)
     for (let i = 0; i < piedrasImg.length; i++) {
-        posXRandom[i] = random(0, 580)
+        posXRandom[i] = random(10, 630)
         posYPiedra[i] = startYPiedra + i * offsetYPiedra
         piedrasTocadas[i] = false
     }
@@ -61,16 +65,28 @@ function draw() {
             for (let i = 0; i < piedrasImg.length; i++) {
                 let piedraY = posYPiedra[i]++ * velPiedra
                 let piedraX = posXRandom[i]
+                const rectXJesus = posXJesus + 25
+                const rectYJesus = 400
+                const rectAnchoJesus = 50
+                const rectAltoJesus = 150
 
                 // Dibujar piedra
-                image(piedrasImg[i], piedraX + 35, piedraY - 35, 350, 350)
+                const piedra = new Piedra(piedraX, piedraY, piedraAncho, piedraAlto)
+                piedra.dibujarPiedra(piedrasImg[i])
+
+                //hitbox de las piedras y Jesus, es para verificar si estan bien ubicados para usarlos en el if, descomentar para testear las ubicaciones
+                // fill('gray')
+                // rect(piedraX - 5, piedraY + 65, piedraAncho / 3 + 10, piedraAlto / 3) // hitbox piedra
+                // fill('white')
+                // rect(posXJesus + 25, 400, 50, 150) // hitbox Jesus
 
                 if (
+                    // esto sirve para detectar la colision, si hay colision entre la hitbox de Jesus y la hitbox de la piedra, se resta una vida y aparece un img de una explosion
                     !piedrasTocadas[i] &&
-                    piedraX + 55 > posXJesus && // Borde derecho de la piedra cruza borde izquierdo del rectángulo
-                    piedraX < posXJesus + 45 && // Borde izquierdo de la piedra cruza borde derecho del rectángulo
-                    piedraY + 55 > 330 && // Borde inferior de la piedra cruza borde superior del rectángulo
-                    piedraY < 330 + 140 // Borde superior de la piedra cruza borde inferior del rectángulo
+                    piedraX - 5 + piedraAncho / 3 + 10 > rectXJesus &&
+                    piedraX - 5 < posXJesus + 25 + rectAnchoJesus &&
+                    piedraY + 65 + piedraAlto / 3 > rectYJesus &&
+                    piedraY + 65 < rectYJesus + rectAltoJesus
                 ) {
                     image(hit, 640 / 2, 480 / 2)
                     piedrasTocadas[i] = true
@@ -85,10 +101,10 @@ function draw() {
             }
 
             fill('green')
-            rect(10, height - (height - 10), (piedrasProcesadas / totalPiedras) * (width - 20), 10)
+            rect(640 / 2, height - (height - 10), (piedrasProcesadas / totalPiedras) * (width - 20), 10)
             noFill()
             stroke('white')
-            rect(10, height - (height - 10), width - 20, 10) // Marco de la barra
+            rect(640 / 2, height - (height - 10), width - 20, 10) // Marco de la barra
 
             if (piedrasProcesadas === totalPiedras) {
                 estado = 2
