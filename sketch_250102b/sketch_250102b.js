@@ -8,6 +8,9 @@ let estado = 0 // 0: pantalla principal, 1: juego...
 let pasos = 0 // pasos de Jesus, si se resta se mueve a la izquierda y se suma se mueve a la derecha
 let velJesus = 5 // velocidad de Jesus
 let vida // variable para la imagen de la vida
+let botonSonido
+let sonidoDesierto
+let isPlaying = false
 let vidaContador = 3 // cantidad de vida
 let posXRandom = [] // Array de las posiciones de las piedras
 let piedrasImg = [] // Array para las imagenes de las piedras
@@ -35,6 +38,9 @@ function preload() {
     }
     vida = loadImage('./img/vida.png')
     hit = loadImage('./img/choca.png')
+    soundFormats('wav')
+    botonSonido = loadSound('./sonidos/boton.wav')
+    sonidoDesierto = loadSound('./sonidos/desierto.wav')
 }
 
 function setup() {
@@ -52,6 +58,12 @@ function setup() {
 function draw() {
     switch (estado) {
         case 1:
+            isPlaying = true
+            if (isPlaying) {
+                sonidoDesierto.play()
+            } else {
+                sonidoDesierto.stop()
+            }
             image(desierto, 640 / 2, 480 / 2)
             if (keyIsDown(LEFT_ARROW) && pasos > -35) {
                 pasos--
@@ -174,4 +186,6 @@ function mouseClicked() {
     } else if (mouseX > 270 && mouseX < 270 + 105 && mouseY > 375 && mouseY < 375 + 90 && estado !== 1) {
         estado = 0
     }
+    getAudioContext().resume()
+    console.log('AudioContext desbloqueado')
 }

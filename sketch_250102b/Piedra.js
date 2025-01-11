@@ -12,8 +12,8 @@ class Piedra {
     }
 
     dibujarPiedra(img) {
-        fill(160, 160, 160, 0) // este fill sirve como "hitbox" de la piedra, el color esta en rgb, el cuarto valor es la opacidad
-        rect(this.rectX - 7, this.rectY + 65, this.rectAncho / 3 + 10, this.rectAlto / 3)
+        fill(160, 160, 160, 0)
+        //rect(this.rectX - 7, this.rectY + 65, this.rectAncho / 3 + 10, this.rectAlto / 3) // este rect sirve como "hitbox" de la piedra, el color esta en el fill, el cuarto valor es la opacidad
         image(img, this.piedraX, this.piedraY, this.piedraAncho * 3, this.piedraAlto * 3)
     }
 }
