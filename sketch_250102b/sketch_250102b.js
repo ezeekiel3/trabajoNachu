@@ -120,7 +120,7 @@ function draw() {
             rect(640 / 2, height - (height - 10), width - 20, 10) // Marco de la barra
 
             if (piedrasProcesadas === totalPiedras) {
-                estado = 2
+                estado = 4
                 // REINICIAR LAS PIEDRAS
                 for (let i = 0; i < piedrasImg.length; i++) {
                     posXRandom[i] = random(0, 580)
@@ -143,7 +143,7 @@ function draw() {
                     image(vida, 30, 450, 70, 40)
                     break
                 default:
-                    estado = 4
+                    estado = 5
                     vidaContador = 3
                     piedrasProcesadas = 0
                     // REINICIAR LAS PIEDRAS
@@ -198,8 +198,8 @@ function draw() {
             textSize(50)
             text('La carrera de Jesus', 640 / 2, 50)
             botonJugar.dibujarBoton(botonImg)
-            botonInstruccion.dibujarBoton(botonImg)
-            botonCreditos.dibujarBoton(botonImg)
+            // botonInstruccion.dibujarBoton(botonImg)
+            // botonCreditos.dibujarBoton(botonImg)
             break
     }
 }
