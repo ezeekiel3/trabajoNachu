@@ -1,6 +1,8 @@
 let fondoPrincipal // variable para el fondo principal
 const botonJugar = new Boton('JUGAR', 105, 405, 110, 90, 22)
 const botonInicio = new Boton('INICIO', 640 / 2, 420, 110, 90, 22)
+// const botonInstruccion = new Boton('INSTRUCCIONES', 310, 410, 140, 90, 13)
+// const botonCreditos = new Boton('CREDITOS', 515, 410, 140, 90, 20)
 let desierto // variable para la imagen del desierto
 let Jesus // variable para la imagen de Jesus
 let botonImg // variable para la imagen del libro
@@ -8,9 +10,11 @@ let estado = 0 // 0: pantalla principal, 1: juego...
 let pasos = 0 // pasos de Jesus, si se resta se mueve a la izquierda y se suma se mueve a la derecha
 let velJesus = 5 // velocidad de Jesus
 let vida // variable para la imagen de la vida
-let botonSonido
+let derrotaSonido
+let victoriaSonido
+let victoriaFondo
+let derrotaFondo
 let sonidoDesierto
-let isPlaying = false
 let vidaContador = 3 // cantidad de vida
 let posXRandom = [] // Array de las posiciones de las piedras
 let piedrasImg = [] // Array para las imagenes de las piedras
@@ -33,14 +37,17 @@ function preload() {
     botonImg = loadImage('./img/libro.png')
     desierto = loadImage('./img/desierto.png')
     Jesus = loadImage('./img/Jesus.png')
+    derrotaFondo = loadImage('./img/derrota.png')
+    victoriaFondo = loadImage('./img/victoria.png')
     for (let i = 0; i < 30; i++) {
         piedrasImg[i] = loadImage('./img/Piedra.png')
     }
     vida = loadImage('./img/vida.png')
     hit = loadImage('./img/choca.png')
     soundFormats('wav')
-    botonSonido = loadSound('./sonidos/boton.wav')
     sonidoDesierto = loadSound('./sonidos/desierto.wav')
+    derrotaSonido = loadSound('./sonidos/risa.wav')
+    victoriaSonido = loadSound('./sonidos/victoria.wav')
 }
 
 function setup() {
@@ -49,7 +56,7 @@ function setup() {
     imageMode(CENTER)
     textAlign(CENTER, CENTER)
     for (let i = 0; i < piedrasImg.length; i++) {
-        posXRandom[i] = random(10, 630)
+        posXRandom[i] = random(20, 650)
         posYPiedra[i] = startYPiedra + i * offsetYPiedra
         piedrasTocadas[i] = false
     }
@@ -58,12 +65,6 @@ function setup() {
 function draw() {
     switch (estado) {
         case 1:
-            isPlaying = true
-            if (isPlaying) {
-                sonidoDesierto.play()
-            } else {
-                sonidoDesierto.stop()
-            }
             image(desierto, 640 / 2, 480 / 2)
             if (keyIsDown(LEFT_ARROW) && pasos > -35) {
                 pasos--
@@ -155,27 +156,50 @@ function draw() {
             }
             break
         case 2:
-            // PANTALLA DE VICTORIA
-            background(100)
-            fill('black')
-            textSize(50)
-            text('GANASTE, MUY BIEN', 640 / 2, 480 / 2)
-            botonInicio.dibujarBoton(botonImg)
+            // PANTALLA DE INSTRUCCION
+            background(200)
+            break
+        case 3:
+            // PANTALLA DE CREDITOS
+            background(200)
             break
         case 4:
-            // PANTALLA DE DERROTA
-            background(100)
+            // PANTALLA DE VICTORIA
+            background(200)
+            image(victoriaFondo, 640 / 2, 480 / 3, 400, 400)
             fill('black')
             textSize(50)
-            text('PERDISTE GATO', 640 / 2, 480 / 2)
+            text('Felicidades, Ganaste', 640 / 2, 40)
             botonInicio.dibujarBoton(botonImg)
+            sonidoDesierto.stop()
+            if (!victoriaSonido.isPlaying()) {
+                victoriaSonido.play()
+            }
+            break
+        case 5:
+            // PANTALLA DE DERROTA
+            background(200)
+            image(derrotaFondo, 640 / 2, 480 / 4)
+            fill('black')
+            textSize(50)
+            text('Fuiste Derrotado', 640 / 2, 40)
+            botonInicio.dibujarBoton(botonImg)
+            sonidoDesierto.stop()
+            if (!derrotaSonido.isPlaying()) {
+                derrotaSonido.play()
+            }
             break
         default:
             image(fondoPrincipal, 640 / 2, 480 / 2, 640, 480)
+            textSize(16)
+            fill(0) // Color del texto
+            text(`X: ${mouseX}, Y: ${mouseY}`, 60, 20)
             fill('black')
             textSize(50)
             text('La carrera de Jesus', 640 / 2, 50)
             botonJugar.dibujarBoton(botonImg)
+            botonInstruccion.dibujarBoton(botonImg)
+            botonCreditos.dibujarBoton(botonImg)
             break
     }
 }
@@ -183,8 +207,11 @@ function draw() {
 function mouseClicked() {
     if (mouseX > 50 && mouseX < 50 + 110 && mouseY > 360 && mouseY < 360 + 90) {
         estado = 1
+        sonidoDesierto.loop()
     } else if (mouseX > 270 && mouseX < 270 + 105 && mouseY > 375 && mouseY < 375 + 90 && estado !== 1) {
         estado = 0
+        derrotaSonido.stop()
+        victoriaSonido.stop()
     }
     getAudioContext().resume()
     console.log('AudioContext desbloqueado')
