@@ -1,6 +1,6 @@
 class Piedra {
     constructor(piedraX, piedraY, piedraAncho, piedraAlto) {
-        // si se modifica el alto y ancho de la piedra hay arreglar la posicion del rect y unirlo con la piedra
+        // si se modifica el alto y ancho de la piedra hay que arreglar la posicion del rect y unirlo con la piedra
         this.piedraX = piedraX
         this.piedraY = piedraY
         this.piedraAncho = piedraAncho
