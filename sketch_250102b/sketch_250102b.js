@@ -16,7 +16,7 @@ function mouseClicked() {
     if (mouseX > 50 && mouseX < 50 + 110 && mouseY > 360 && mouseY < 360 + 90 && juegoRaiz.obtenerEstado() === 0) {
         // CLICK PARA JUGAR
         juegoRaiz.modificarEstado(1)
-        juegoRaiz.obtenerSonidoDesierto.loop
+        juegoRaiz.sonidoDesiertoLoop()
     } else if (
         mouseX > 260 &&
         mouseX < 260 + 130 &&
@@ -47,8 +47,8 @@ function mouseClicked() {
     ) {
         // CLICK EN LA PANTALLA DE VICTORIA, DERROTA, INSTRUCCIONES Y CREDITOS
         juegoRaiz.modificarEstado(0)
-        juegoRaiz.obtenerSonidoVictoria.stop
-        juegoRaiz.obtenerSonidoDerrota.stop
+        juegoRaiz.sonidoDerrotaStop()
+        juegoRaiz.sonidoVictoriaStop()
     }
     getAudioContext().resume()
 }

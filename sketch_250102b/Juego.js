@@ -227,15 +227,15 @@ class Juego {
         return this.estado
     }
 
-    obtenerSonidoVictoria() {
-        return this.victoriaSonido
+    sonidoDesiertoLoop() {
+        this.sonidoDesierto.loop()
     }
 
-    obtenerSonidoDerrota() {
-        return this.derrotaSonido
+    sonidoVictoriaStop() {
+        this.victoriaSonido.stop()
     }
 
-    obtenerSonidoDesierto() {
-        return this.sonidoDesierto
+    sonidoDerrotaStop() {
+        this.derrotaSonido.stop()
     }
 }
